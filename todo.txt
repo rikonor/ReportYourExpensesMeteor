@@ -1,0 +1,10 @@
+where did i leave:
+
+I was trying to make tagsinput work
+find it in new.html
+I installed the package (see meteor list) through meteor add something-tagsinput
+it's supposed to be working but isnt.
+Tried to find the files in .meteor but due to lack of time didnt find anything
+
+Add edit
+Add date and time edit

@@ -1,0 +1,42 @@
+<template name="History">
+  <div class="container">
+    <h1>History</h1>
+    
+    <table class="table" id="expensesTable">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Description</th>
+          <th>Amount</th>
+          <th>Tags</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each expenses}}
+        {{> Expense}}
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</template>
+
+<template name="Expense">
+  <tr>
+    <td>{{ formatDate created_at }}</td>
+    <td>{{ description }}</td>
+    <td>{{ amount }}</td>
+    <td>{{#each tags}}{{> Tag}}{{/each}}</td>
+  </tr>
+</template>
+
+<template name="Tag">
+  <a class="tag {{color}}">{{text}}</a>
+</template>
+
+<!-- <h1 id="totalAmount">Expense History - Total is (&#8362; <span id="totalSum">{{totalSum}}</span>)</h1> -->
+
+  <!-- <div class="form-group">
+    <label class="sr-only" for="tagsInput">Tags Input</label>
+    <input type="text" data-role="tagsinput" class="form-control" name="tagsInput" id="tagsInput" placeholder="Search tags" autocomplete="off">
+  </div>
+-->

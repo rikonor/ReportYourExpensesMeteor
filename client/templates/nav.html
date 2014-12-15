@@ -1,0 +1,44 @@
+<template name="Nav">
+  <nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+      
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Report Your Expenses</a>
+      </div>
+
+      <div class="collapse navbar-collapse">
+        <!-- LEFT SIDE -->
+        <ul class="nav navbar-nav">
+        {{#if loggedIn}}
+          <!-- MAIN -->
+          <li class="{{activePage '/home'}}"><a href="{{ pathFor 'home' }}">Home <span class="sr-only">(current)</span></a></li>
+          <li class="{{activePage '/new'}}"><a href="{{ pathFor 'new' }}">New</a></li>
+          <li class="{{activePage '/history'}}"><a href="{{ pathFor 'history' }}">History</a></li>
+
+          <!-- OPTIONS -->
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Options <span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="#">Action</a></li>
+              <li class="divider"></li>
+              <li><a href="#">Separated link</a></li>
+            </ul>
+          </li>
+        {{/if}}
+        </ul>
+        
+        <!-- RIGHT SIDE -->
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="#">{{> loginButtons}}</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </nav>
+</template>
