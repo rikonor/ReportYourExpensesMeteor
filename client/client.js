@@ -66,14 +66,18 @@ Template.Nav.helpers({
   }
 });
 
-// Check if a tag is valid
-var validExpense = function(tag) {
-  return tag.amount != "" && tag.description != "";
+// Check if an expense is valid
+var validExpense = function(expense) {
+  return expense.amount != NaN || expense.description != "";
+};
+
+Template.New.rendered = function() {
+  $('#tags').tagsinput();
 };
 
 Template.New.events({
   'submit #newForm': function(e, t) {
-    var amount      = t.find('#amount').value;
+    var amount      = parseFloat(t.find('#amount').value);
     var description = t.find('#description').value;
     var tags        = t.find('#tags').value;
 
@@ -93,9 +97,10 @@ Template.New.events({
       return false;
     }
 
+    // Reset form
     t.find('#amount').value = "";
     t.find('#description').value = "";
-    t.find('#tags').value = "";
+    $('#tags').tagsinput('removeAll');
 
     Expenses.insert(expense);
 
@@ -106,5 +111,13 @@ Template.New.events({
 Template.History.helpers({
   expenses: function() {
     return Expenses.find().fetch();
+  },
+  totalSum: function() {
+    expenses = Expenses.find().fetch();
+    totalSum = 0;
+    for (i in expenses) {
+      totalSum += expenses[i]['amount'];
+    }
+    return totalSum;
   }
 });
