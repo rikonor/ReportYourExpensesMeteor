@@ -61,8 +61,8 @@ var createLineGraph = function(selector, data) {
   var yAxis = d3.svg.axis().scale(y).orient('left');
 
   var line = d3.svg.line()
-    .x(function(d) { return x(d.created_at); })
-    .y(function(d) { return y(d.amount); });
+    .x(function(d) { return x(new Date(d.t)); })
+    .y(function(d) { return y(d.val); });
 
   var svg = d3.select(selector).append('svg')
     .attr('width', width + margin.left + margin.right)
@@ -70,8 +70,11 @@ var createLineGraph = function(selector, data) {
     .append('g')
     .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
-  x.domain(d3.extent(data, function(d) { return d.created_at; }));
-  y.domain(d3.extent(data, function(d) { return d.amount; }));
+  xMin = d3.min(data, function(d) { return new Date(d.t); });
+  xMax = d3.max(data, function(d) { return new Date(d.t); });
+  x.domain([xMin, xMax]);
+  yMax = d3.max(data, function(d) { return d.val; })
+  y.domain([0, yMax + 100]);
 
   svg.append('g')
     .attr('class', 'x axis')

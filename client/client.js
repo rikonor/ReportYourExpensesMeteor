@@ -125,5 +125,14 @@ Template.History.helpers({
 
 Template.Home.rendered = function() {
   var expenses = Expenses.find().fetch();
-  // GraphUtils.createLineGraph('.graph', expenses);
+  var groupedByDate = ExpenseUtils.groupByDate(expenses);
+  data = [];
+  for (date in groupedByDate) {
+    data.push({
+      t: date,
+      val: ExpenseUtils.sum(groupedByDate[date])
+    });
+  }
+  data = ExpenseUtils.padMonth(data);
+  GraphUtils.createLineGraph('.graph', data);
 };
