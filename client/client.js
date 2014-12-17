@@ -2,8 +2,6 @@
 //-- Collections --//
 //-----------------//
 
-Meteor.subscribe('expenses');
-
 //------------//
 //-- Routes --//
 //------------//
@@ -20,6 +18,9 @@ Router.configure({
       this.next();
     }
   },
+  waitOn: function() {
+    Meteor.subscribe('expenses');
+  },
   // Delay the loading bar starting for fast routes
   progressDelay: 100
 });
@@ -29,7 +30,7 @@ Router.route('/', function() {
 });
 
 Router.route('/home', function() {
-  this.render('Home', {data: {title: 'My Title'}});
+  this.render('Home');
 });
 
 Router.route('/new', function() {
@@ -121,3 +122,8 @@ Template.History.helpers({
     return totalSum;
   }
 });
+
+Template.Home.rendered = function() {
+  var expenses = Expenses.find().fetch();
+  // GraphUtils.createLineGraph('.graph', expenses);
+};

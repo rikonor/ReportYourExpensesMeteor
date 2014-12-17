@@ -1,6 +1,8 @@
 where did i leave:
 
+I was going to write function for grouping the expenses by year, month, day
+After that I was going to use those to group the expenses of the current month by day and sum them for a total per day
+then I was going to show this total per day on the graph
 
-
-Add edit
-Add date and time edit
+Add edit for expense
+Add date and time edit for expense
