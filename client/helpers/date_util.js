@@ -9,10 +9,12 @@ DateUtil.getMonth = function(date) {
 };
 
 DateUtil.getDate = function(date) {
+	// Given a date object, return the
 	return new Date(date.getFullYear(), date.getMonth(), date.getDate());
 };
 
 DateUtil.completeMonth = function(date) {
+	// Given a date, returns an array of date objects pertaining to each day of the supplied day's month
 	start = DateUtil.getMonth(date);
 	days = [];
 	current_day = start;

@@ -137,7 +137,7 @@ Template.Home.rendered = function() {
     });
   }
   data = ExpenseUtils.padMonth(data);
-  GraphUtils.createLineGraph('.graph', data);
+  Graph.createLineGraph('.graph', data);
 };
 
 Template.Expense.helpers({
