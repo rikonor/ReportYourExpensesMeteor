@@ -3,36 +3,40 @@
 
     <h1>New</h1>
 
-    <form role="form" name="newForm" id="newForm">
-      <!-- GENERAL INFO -->
-      <fieldset>
-        <!-- AMOUNT -->
-        <div class="form-group">
-          <label class="sr-only" for="amount">Amount</label>
-          <input type="text" class="form-control" name="amount" id="amount" placeholder="Amount" autocomplete="off">
-        </div>
-
-        <!-- DESCRIPTION -->
-        <div class="form-group">
-          <label class="sr-only" for="description">Description</label>
-          <input type="text" class="form-control" name="description" id="description" placeholder="Description" autocomplete="off">
-        </div>
-
-        <!-- TAGS -->
-        <div class="form-group">
-          <label class="sr-only" for="tags">Tags Input</label>
-          <input type="text" data-role="tagsinput" class="form-control" name="tags" id="tags" placeholder="Enter tags" autocomplete="off">
-        </div>
-      </fieldset>
-      
-      <!-- SUBMIT -->
-      <div class="form-group">
-        <button class="form-control btn btn-default">Submit</button>
-      </div>
-    </form>
+    {{> NewExpenseForm }}
 
     <!-- RESULT MESSAGES -->
     <p id="last_id"></p>
     <p class="bg-info" id="addSuccess"></p>
   </div>
+</template>
+
+<template name="NewExpenseForm">
+  <form role="form" name="newForm" id="newForm">
+    <!-- GENERAL INFO -->
+    <fieldset>
+      <!-- AMOUNT -->
+      <div class="form-group">
+        <label class="sr-only" for="amount">Amount</label>
+        <input type="text" class="form-control" name="amount" id="amount" placeholder="Amount" autocomplete="off">
+      </div>
+
+      <!-- DESCRIPTION -->
+      <div class="form-group">
+        <label class="sr-only" for="description">Description</label>
+        <input type="text" class="form-control" name="description" id="description" placeholder="Description" autocomplete="off">
+      </div>
+
+      <!-- TAGS -->
+      <div class="form-group">
+        <label class="sr-only" for="tags">Tags Input</label>
+        <input type="text" data-role="tagsinput" class="form-control" name="tags" id="tags" placeholder="Enter tags" autocomplete="off">
+      </div>
+    </fieldset>
+    
+    <!-- SUBMIT -->
+    <div class="form-group">
+      <button class="form-control btn btn-default">Submit</button>
+    </div>
+  </form>
 </template>

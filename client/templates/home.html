@@ -1,11 +1,21 @@
 <template name="Home">
   <div class="container">
     <h1>Home</h1>
+    <h3>Graphs</h3>
+    <ol>
+        <li>Use a bar chart instead of line</li>
+        <li>Fix X axis not having a line</li>
+        <li>Any period range graph, if the range is smaller then one month then the resolution is days<br/>
+        if the range is larger then one month then the resolution should be months</li>
+        <li>Weekly graph</li>
+        <li>Monthly graph</li>
+        <li>Yearly graph</li>
+        <li>Pie/Donut graph by tags</li>
+    </ol>
     <h3>Tasks</h3>
     <ol class="tasks">
-        <li>Add total for month</li>
-        <li>Add graph of total for month</li>
-        <li>Graph should be for month, ticks should be per day and values should be total for days</li>
+        <li>Handle case when Expenses are empty - so the graph creation throws an error</li>
+        <li>When adding expense, the tag should be in its own collection, then add the tag id to the expense</li>
         <li>Add last few expenses</li>
         <li>Add incomes as a switch when adding a new expense</li>
         <li>Add recurring expenses/incomes</li>

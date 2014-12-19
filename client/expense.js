@@ -1,7 +1,41 @@
 Expense = {};
 
-var valid = function(expense) {
-  return expense.amount != NaN || expense.description != "";
+Expense.create = function(amount, description, tags) {
+	expense = {
+		amount: amount,
+		description: description,
+		tags: []
+	};
+	
+	if (!Expense.valid(expense)) {
+		throw new Error("Invalid expense");
+	}
+	
+	for (i in tags) {
+		var text = tags[i];
+		// Try and find the tag
+		var tag = Tags.findOne({text: text})
+		if (tag) {
+			tag_id = tag._id;
+		} else {
+			// If not found create it
+			// TODO - what about when the tag create doesn't work? wouldn't it reaturn a bad tag_id?
+			tag_id = Tag.create(text);
+		}
+	
+		// And append the tag_id to the expense's tags
+		expense['tags'].push(tag_id);
+	}
+
+	return Expenses.insert(expense);
+}
+
+Expense.valid = function(expense) {
+  return expense.amount != NaN && expense.description != "";
+};
+
+Expense.getTags = function(expense) {
+	return Tags.find({_id: {$in: expense.tags}}).fetch();
 };
 
 Expense.getCreationDate = function(expense) {
@@ -19,6 +53,8 @@ Expense.getDate = function(expense) {
 	d = Expense.getCreationDate(expense);
 	return DateUtil.getDate(d);
 };
+
+/* Utilities */
 
 ExpenseUtils = {};
 
@@ -91,30 +127,4 @@ ExpenseUtils.padMonth = function(totalGroup) {
 		}
 	}
 	return results;
-};
-
-DateUtil = {};
-
-DateUtil.getYear = function(date) {
-	return new Date(date.getFullYear());
-};
-
-DateUtil.getMonth = function(date) {
-	return new Date(date.getFullYear(), date.getMonth());
-};
-
-DateUtil.getDate = function(date) {
-	return new Date(date.getFullYear(), date.getMonth(), date.getDate());
-};
-
-DateUtil.completeMonth = function(date) {
-	start = DateUtil.getMonth(date);
-	days = [];
-	current_day = start;
-	end = new Date(start.getFullYear(), start.getMonth() + 1);
-	while (current_day < end) {
-		days.push(current_day);
-		current_day = new Date(current_day.getFullYear(), current_day.getMonth(), current_day.getDate()+1);
-	}
-	return days;
 };

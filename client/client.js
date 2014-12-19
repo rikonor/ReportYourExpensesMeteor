@@ -19,7 +19,10 @@ Router.configure({
     }
   },
   waitOn: function() {
-    Meteor.subscribe('expenses');
+    return [
+      Meteor.subscribe('expenses'),
+      Meteor.subscribe('tags')
+    ];
   },
   // Delay the loading bar starting for fast routes
   progressDelay: 100
@@ -76,7 +79,7 @@ Template.New.rendered = function() {
   $('#tags').tagsinput();
 };
 
-Template.New.events({
+Template.NewExpenseForm.events({
   'submit #newForm': function(e, t) {
     var amount      = parseFloat(t.find('#amount').value);
     var description = t.find('#description').value;
@@ -84,13 +87,11 @@ Template.New.events({
 
     // Split tags into Tag objects
     tags = tags.split(",");
-    for (i in tags) { tags[i] = {text: tags[i], color: "blue"} }
 
     expense = {
       amount: amount,
       description: description,
-      tags: tags,
-      userId: Meteor.user()._id
+      tags: tags
     }
 
     if (!validExpense(expense)) {
@@ -103,8 +104,10 @@ Template.New.events({
     t.find('#description').value = "";
     $('#tags').tagsinput('removeAll');
 
-    Expenses.insert(expense);
+    // This line makes the form submit and reload the page and nothing is actually inserted.
+    Expense.create(amount, description, tags);
 
+    // Expenses.insert(expense);
     return false;
   }
 });
