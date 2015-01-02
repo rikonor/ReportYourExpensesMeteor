@@ -33,7 +33,9 @@ Expense.create = function(amount, description, tags) {
 }
 
 Expense.valid = function(expense) {
-  return expense.amount != NaN && expense.description != "";
+  var validAmount = (expense.amount || false) && typeof(expense.amount) == 'number';
+  var validDescription = (expense.description || false) && expense.description != "";
+  return validAmount && validDescription;
 };
 
 // Find

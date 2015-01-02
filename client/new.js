@@ -11,6 +11,7 @@ Template.NewExpenseForm.events({
     // Split tags into Tag objects
     tags = tags.split(",");
 
+    // Form validation
     expense = {
       amount: amount,
       description: description,
@@ -19,6 +20,7 @@ Template.NewExpenseForm.events({
 
     if (!Expense.valid(expense)) {
       // Need to add possibly message to user explaining missing fields
+      console.log("Invalid expense");
       return false;
     }
 
@@ -27,10 +29,8 @@ Template.NewExpenseForm.events({
     t.find('#description').value = "";
     $('#tags').tagsinput('removeAll');
 
-    // This line makes the form submit and reload the page and nothing is actually inserted.
     Expense.create(amount, description, tags);
 
-    // Expenses.insert(expense);
     return false;
   }
 });
