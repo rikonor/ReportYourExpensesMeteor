@@ -73,6 +73,7 @@ Tag.orQueries = function(queries) {
 
 // Given a complex query about tags, return all the expenses which pass it 
 Tag.getExpensesByQuery = function(query) {
+	query = query || {};
 	return Expenses.find(query).fetch();
 };
 

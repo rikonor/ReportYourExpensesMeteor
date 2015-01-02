@@ -3,9 +3,7 @@
 
     <h1 id="totalAmount">Expense History - Total is (&#8362; <span id="totalSum">{{totalSum expenses}}</span>)</h1>
     
-    <input type="text" data-role="tagsinput" class="form-control" name="query" id="query" placeholder="Enter Query" autocomplete="off">
-
-    <p>{{query}}</p>
+    <input type="text" data-role="tagsinput" class="form-control" name="query" id="query" placeholder="Search" autocomplete="off">
 
     <table class="table" id="expensesTable">
       <thead>
@@ -17,7 +15,7 @@
         </tr>
       </thead>
       <tbody>
-        {{#each expenses}}
+        {{#each expenses query}}
         {{> Expense}}
         {{/each}}
       </tbody>
@@ -37,11 +35,3 @@
 <template name="Tag">
   <a class="tag {{color}}">{{text}}</a>
 </template>
-
-<!-- <h1 id="totalAmount">Expense History - Total is (&#8362; <span id="totalSum">{{totalSum}}</span>)</h1> -->
-
-  <!-- <div class="form-group">
-    <label class="sr-only" for="tagsInput">Tags Input</label>
-    <input type="text" data-role="tagsinput" class="form-control" name="tagsInput" id="tagsInput" placeholder="Search tags" autocomplete="off">
-  </div>
--->

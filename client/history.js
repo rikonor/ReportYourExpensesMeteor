@@ -1,4 +1,4 @@
-var query;
+var query = {};
 var queryDep = new Deps.Dependency;
 
 Template.History.rendered = function() {
@@ -7,7 +7,24 @@ Template.History.rendered = function() {
 
 Template.History.events({
   'itemAdded #query, itemRemoved #query': function(event, template) {
-    query = template.find('#query').value;
+    queryString = template.find('#query').value;
+    if (queryString == "") {
+      query = {}
+      queryDep.changed();
+      return;
+    }
+
+    queryArgs = queryString.split(",");
+
+    queries = [];
+    for (i in queryArgs) {
+      var text = queryArgs[i];
+      var id = Tag.textToId(text);
+      var innerQuery = Tag.idToQuery(id);
+      queries.push(innerQuery);
+    }
+
+    query = Tag.andQueries(queries);
     queryDep.changed();
   }
 });
@@ -17,8 +34,8 @@ Template.History.helpers({
     queryDep.depend();
     return query;
   },
-  expenses: function() {
-    return Expenses.find().fetch();
+  expenses: function(query) {
+    return Tag.getExpensesByQuery(query);
   },
   totalSum: function(expenses) {
     totalSum = 0;
