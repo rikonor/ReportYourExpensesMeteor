@@ -112,12 +112,20 @@ Template.NewExpenseForm.events({
   }
 });
 
+Template.History.rendered = function() {
+  $('#tags').tagsinput();
+};
+
 Template.History.helpers({
+  tags: function() {
+    tags = $('#tags');
+    console.log(tags);
+    return tags;
+  },
   expenses: function() {
     return Expenses.find().fetch();
   },
-  totalSum: function() {
-    expenses = Expenses.find().fetch();
+  totalSum: function(expenses) {
     totalSum = 0;
     for (i in expenses) {
       totalSum += expenses[i]['amount'];

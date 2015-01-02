@@ -46,11 +46,34 @@ Tag.findByText = function(text) {
 	return Tags.findOne({text: text});
 };
 
+// Misc
+
+Tag.textToId = function(text) {
+	tag = Tag.findByText(text);
+	return tag && tag._id;
+};
+
 // Expenses
+
+// The function Tag.getExpensesByQuery takes a query and gives back expenses
+// The basic query is returned by Tag.idToQuery
+// You can then combine basic queries using Tag.andQueris / Tag.orQueries
+
+Tag.idToQuery = function(id) {
+	return {tags: id};
+};
+
+Tag.andQueries = function(queries) {
+	return {$and: queries};
+};
+
+Tag.orQueries = function(queries) {
+	return {$or: queries};
+};
 
 // Given a complex query about tags, return all the expenses which pass it 
 Tag.getExpensesByQuery = function(query) {
-	return Expenses.find({tags: query}).fetch();
+	return Expenses.find(query).fetch();
 };
 
 // Given a tag, return all of the expenses that are tagged with it
