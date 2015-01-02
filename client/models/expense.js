@@ -1,5 +1,7 @@
 Expense = {};
 
+// Create
+
 Expense.create = function(amount, description, tags) {
 	expense = {
 		amount: amount,
@@ -34,9 +36,23 @@ Expense.valid = function(expense) {
   return expense.amount != NaN && expense.description != "";
 };
 
+// Find
+
+Expense.findAll = function() {
+	return Expenses.find().fetch();
+};
+
+Expense.findById = function(id) {
+	return Expenses.findOne({_id: id});
+};
+
+// Tags
+
 Expense.getTags = function(expense) {
 	return Tags.find({_id: {$in: expense.tags}}).fetch();
 };
+
+// Dates
 
 Expense.getCreationDate = function(expense) {
 	return expense.created_at;

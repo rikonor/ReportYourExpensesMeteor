@@ -1,7 +1,8 @@
 DateUtil = {};
 
 DateUtil.getYear = function(date) {
-	return new Date(date.getFullYear());
+	// Notice Date(year) will return 1970, you have to give it a month as well
+	return new Date(date.getFullYear(), 0);
 };
 
 DateUtil.getMonth = function(date) {
@@ -24,4 +25,16 @@ DateUtil.completeMonth = function(date) {
 		current_day = new Date(current_day.getFullYear(), current_day.getMonth(), current_day.getDate()+1);
 	}
 	return days;
+};
+
+DateUtil.getCurrentYear = function() {
+	return DateUtil.getYear(new Date());
+};
+
+DateUtil.getCurrentMonth = function() {
+	return DateUtil.getMonth(new Date());
+};
+
+DateUtil.getCurrentDate = function() {
+	return DateUtil.getDate(new Date());
 };

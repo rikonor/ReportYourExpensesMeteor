@@ -142,7 +142,6 @@ Template.Home.rendered = function() {
 
 Template.Expense.helpers({
   tags: function() {
-    console.log(Expense.getTags(this));
     return Expense.getTags(this);
   }
 });
