@@ -8,23 +8,7 @@ Template.History.rendered = function() {
 Template.History.events({
   'itemAdded #query, itemRemoved #query': function(event, template) {
     queryString = template.find('#query').value;
-    if (queryString == "") {
-      query = {}
-      queryDep.changed();
-      return;
-    }
-
-    queryArgs = queryString.split(",");
-
-    queries = [];
-    for (i in queryArgs) {
-      var text = queryArgs[i];
-      var id = Tag.textToId(text);
-      var innerQuery = Tag.idToQuery(id);
-      queries.push(innerQuery);
-    }
-
-    query = Tag.andQueries(queries);
+    query = QueryEngine.process(queryString);
     queryDep.changed();
   }
 });
@@ -43,5 +27,11 @@ Template.History.helpers({
       totalSum += expenses[i]['amount'];
     }
     return totalSum;
+  }
+});
+
+Template.Expense.helpers({
+  tags: function() {
+    return Expense.getTags(this);
   }
 });

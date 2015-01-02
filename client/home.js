@@ -11,9 +11,3 @@ Template.Home.rendered = function() {
   data = ExpenseUtils.padMonth(data);
   Graph.createLineGraph('.graph', data);
 };
-
-Template.Expense.helpers({
-  tags: function() {
-    return Expense.getTags(this);
-  }
-});
