@@ -21,12 +21,9 @@ Template.History.helpers({
   expenses: function(query) {
     return Tag.getExpensesByQuery(query);
   },
-  totalSum: function(expenses) {
-    totalSum = 0;
-    for (i in expenses) {
-      totalSum += expenses[i]['amount'];
-    }
-    return totalSum;
+  totalSum: function(query) {
+    var expenses = Tag.getExpensesByQuery(query);
+    return ExpenseUtils.sum(expenses);
   }
 });
 
