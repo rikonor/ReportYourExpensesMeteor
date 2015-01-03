@@ -51,6 +51,7 @@ mizzao:bootstrap-3@3.3.1_1
 mobile-status-bar@1.0.1
 momentjs:moment@2.8.4
 mongo@1.0.9
+mrt:bootstrap3-typeahead@3.0.3
 multiply:iron-router-progress@1.0.0
 npm-bcrypt@0.7.7
 observe-sequence@1.0.3

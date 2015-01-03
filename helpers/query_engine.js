@@ -70,7 +70,6 @@ var processTagsArray = function(tags) {
 };
 
 QueryEngine.process = function(queryString) {
-  console.log(queryString);
   if (queryString == "") {
     // An empty query will return all items
     return {};

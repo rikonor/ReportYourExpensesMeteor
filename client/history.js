@@ -2,8 +2,11 @@ var query = {};
 var queryDep = new Deps.Dependency;
 
 Template.History.rendered = function() {
+  var initTags = Tags.find().fetch().map(function(it){ return it.text; });
   $('#query').tagsinput({
-    allowDuplicates: true
+    allowDuplicates: true,
+    typeahead: { source: initTags.concat(['OR','AND']) },
+    freeInput: true
   });
 };
 
