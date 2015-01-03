@@ -5,13 +5,11 @@ QueryEngine = {};
 //
 // Reserved word (case insensitive):
 // - and, or, not
-// - year, month, day
 //
 // Example query strings:
 // - "tag1,tag2,tag3" 				(Implicit AND)
 // - "tag1,and,tag2" 				(Explicit AND)
 // - "tag1,or,tag2" 				(Explicit OR)
-// - "Year: 2014, Month: 9,tag1" 	(Date and tag)
 
 QueryEngine.and = function(queries) {
 	return {$and: queries};
@@ -21,25 +19,67 @@ QueryEngine.or = function(queries) {
 	return {$or: queries};
 };
 
-QueryEngine.process = function(queryString) {
-	if (queryString == "") {
-		// An empty query will return all items
-		return {};
-	}
+// Processing functions
 
-	queryArgs = queryString.split(",");
-
-    queries = [];
-    for (i in queryArgs) {
-      var text = queryArgs[i];
-      
-      // Convert text to TagQuery
-      // Consider there might be other kinds of queries possible
-      var id = Tag.textToId(text);
-      var innerQuery = Tag.idToQuery(id);
-      
-      queries.push(innerQuery);
+// Given an array, return an array of subarrays
+// ['1',val,'2'] -> [['1'],['2']]
+var sepByVal = function(tags, val) {
+  var result = [];
+  var i;
+  var currentIndex = 0;
+  for (i = 0; i < tags.length; i++) {
+    tag = tags[i];
+    if (tag == val) {
+      result.push(tags.slice(currentIndex, i));
+      currentIndex = i+1;
     }
+  }
+  result.push(tags.slice(currentIndex, i));
+  return result;
+};
 
-    return QueryEngine.and(queries);
+// Check if a value is present in an array
+var hasVal = function(tags, val) {
+  return tags.indexOf(val) != -1;
+};
+
+var tagQuery = function(tags) {
+  if (tags.length == 1) {
+    return Tag.textToQuery(tags[0]);
+  } else {
+    return QueryEngine.and(tags.map(function(tag) {return Tag.textToQuery(tag)}));
+  }
+};
+
+// This is a recursive function meant to handle an array
+// of tags, along with 'OR', 'AND' separators
+var processTagsArray = function(tags) {
+  if (hasVal(tags, 'OR')) {
+    var orGroup = sepByVal(tags, 'OR');
+    return QueryEngine.or(orGroup.map(function(orElem) {return processTagsArray(orElem)}));
+  }
+
+  else if (hasVal(tags, 'AND')) {
+    var andGroup = sepByVal(tags, 'AND');
+    return QueryEngine.and(andGroup.map(function(andElem) {return processTagsArray(andElem)}));
+  }
+
+  else {
+    return tagQuery(tags);
+  }
+};
+
+QueryEngine.process = function(queryString) {
+  if (queryString == "") {
+    // An empty query will return all items
+    return {};
+  }
+
+  tags = queryString.split(",");
+
+  // If first/last tag are 'OR'/'AND', ignore them
+  if (Tag.isCmd(tags[0])) tags.shift();
+  if (Tag.isCmd(tags[tags.length-1])) tags.pop();
+
+  return processTagsArray(tags);
 };

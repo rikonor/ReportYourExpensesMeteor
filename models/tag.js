@@ -53,23 +53,25 @@ Tag.textToId = function(text) {
 	return tag && tag._id;
 };
 
-// Expenses
+// Queries
 
-// The function Tag.getExpensesByQuery takes a query and gives back expenses
-// The basic query is returned by Tag.idToQuery
-// You can then combine basic queries using Tag.andQueris / Tag.orQueries
+Tag.textToQuery = function(text) {
+	return Tag.idToQuery(Tag.textToId(text));
+};
 
 Tag.idToQuery = function(id) {
 	return {tags: id};
 };
 
-Tag.andQueries = function(queries) {
-	return {$and: queries};
+Tag.isCmd = function(tag) {
+	return (tag == 'OR' || tag == 'AND');
 };
 
-Tag.orQueries = function(queries) {
-	return {$or: queries};
-};
+// Expenses
+
+// The function Tag.getExpensesByQuery takes a query and gives back expenses
+// The basic query is returned by Tag.idToQuery
+// You can then combine basic queries using Tag.andQueris / Tag.orQueries
 
 // Given a complex query about tags, return all the expenses which pass it 
 Tag.getExpensesByQuery = function(query) {
@@ -81,4 +83,3 @@ Tag.getExpensesByQuery = function(query) {
 Tag.getExpenses = function(tag) {
 	return Expenses.find({tags: tag._id}).fetch();
 };
-

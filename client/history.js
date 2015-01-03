@@ -2,7 +2,9 @@ var query = {};
 var queryDep = new Deps.Dependency;
 
 Template.History.rendered = function() {
-  $('#query').tagsinput();
+  $('#query').tagsinput({
+    allowDuplicates: true
+  });
 };
 
 Template.History.events({
