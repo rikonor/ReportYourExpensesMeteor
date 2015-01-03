@@ -1,5 +1,10 @@
 Template.New.rendered = function() {
-  $('#tags').tagsinput();
+  var initTags = Tags.find().fetch().map(function(it){ return it.text; });
+  $('#tags').tagsinput({
+    allowDuplicates: true,
+    typeahead: { source: initTags.concat(['OR','AND']) },
+    freeInput: true
+  });
 };
 
 Template.NewExpenseForm.events({
