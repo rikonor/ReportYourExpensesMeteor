@@ -4,12 +4,12 @@ QueryEngine = {};
 // It's role is to parse query strings into meaningful queries
 //
 // Reserved word (case insensitive):
-// - and, or, not
+// - AND, OR, NOT
 //
 // Example query strings:
 // - "tag1,tag2,tag3" 				(Implicit AND)
-// - "tag1,and,tag2" 				(Explicit AND)
-// - "tag1,or,tag2" 				(Explicit OR)
+// - "tag1,AND,tag2" 				(Explicit AND)
+// - "tag1,OR,tag2" 				(Explicit OR)
 
 QueryEngine.and = function(queries) {
 	return {$and: queries};
@@ -70,6 +70,7 @@ var processTagsArray = function(tags) {
 };
 
 QueryEngine.process = function(queryString) {
+  console.log(queryString);
   if (queryString == "") {
     // An empty query will return all items
     return {};
@@ -77,9 +78,16 @@ QueryEngine.process = function(queryString) {
 
   tags = queryString.split(",");
 
+  // ToEnable '+' as OR, replace all '+' tags with 'OR'
+  tags = tags.map(function(tag) {return tag == '+' ? 'OR' : tag});
+
   // If first/last tag are 'OR'/'AND', ignore them
   if (Tag.isCmd(tags[0])) tags.shift();
   if (Tag.isCmd(tags[tags.length-1])) tags.pop();
+
+  if (tags.length == 0) {
+    return {};
+  }
 
   return processTagsArray(tags);
 };
