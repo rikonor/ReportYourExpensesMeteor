@@ -15,6 +15,11 @@ Template.History.events({
     queryString = template.find('#query').value;
     query = QueryEngine.process(queryString);
     queryDep.changed();
+  },
+  'click .tag': function(event, template) {
+    // When clicking a tag, add it to the search bar
+    var tag = event.currentTarget.text;
+    $('#query').tagsinput('add', tag);
   }
 });
 
