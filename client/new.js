@@ -5,6 +5,10 @@ Template.New.rendered = function() {
     typeahead: { source: initTags.concat(['OR','AND']) },
     freeInput: true
   });
+
+  // Add current year and month to each new entry
+  $('#tags').tagsinput('add', moment(DateUtil.getCurrentYear()).format('YYYY'));
+  $('#tags').tagsinput('add', moment(DateUtil.getCurrentMonth()).format('MMMM'));
 };
 
 Template.NewExpenseForm.events({
