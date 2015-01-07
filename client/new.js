@@ -10,6 +10,18 @@ Template.New.rendered = function() {
   $('#tags').tagsinput('add', moment(DateUtil.getCurrentMonth()).format('MMMM'));
 };
 
+Template.CurrentTotal.helpers({
+  currentTotal: function() {
+    return ExpenseUtils.sum(Expense.fromMonth());
+  },
+  currentMonth: function() {
+    return moment(DateUtil.getCurrentMonth()).format('MMMM');
+  },
+  currentYear: function() {
+    return moment(DateUtil.getCurrentYear()).format('YYYY');
+  }
+});
+
 Template.NewExpenseForm.events({
   'submit #newForm': function(e, t) {
     var amount      = parseFloat(t.find('#amount').value);

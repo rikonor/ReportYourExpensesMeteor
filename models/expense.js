@@ -56,6 +56,7 @@ Expense.getTags = function(expense) {
 
 // Dates
 
+/* properties */
 Expense.getCreationDate = function(expense) {
 	return expense.created_at;
 };
@@ -70,6 +71,35 @@ Expense.getMonth = function(expense) {
 Expense.getDate = function(expense) {
 	d = Expense.getCreationDate(expense);
 	return DateUtil.getDate(d);
+};
+
+/* utilities */
+Expense.fromDateRange = function(start, end) {
+	return Expenses.find({
+		"effective_at": {
+			$gt: start,
+			$lt: end
+		}
+	}).fetch();
+};
+Expense.fromYear = function(date) {
+// If date given, find the expenses from the year
+// of the date, otherwise from current year
+	start = DateUtil.getYear(date || new Date());
+	end = DateUtil.nextYear(start);
+	return Expense.fromDateRange(start, end);
+};
+Expense.fromMonth = function(date) {
+// Like Expense.fromYear
+	start = DateUtil.getMonth(date || new Date());
+	end = DateUtil.nextMonth(start);
+	return Expense.fromDateRange(start, end);
+};
+Expense.fromDate = function(date) {
+// Like Expense.fromYear
+	start = DateUtil.getDate(date || new Date());
+	end = DateUtil.nextDay(start);
+	return Expense.fromDateRange(start, end);
 };
 
 /* Utilities */

@@ -1,7 +1,7 @@
 <template name="New">
   <div class="container">
 
-    <h1>New</h1>
+    <h1>New - {{> CurrentTotal }}</h1>
 
     {{> NewExpenseForm }}
 
@@ -9,6 +9,10 @@
     <p id="last_id"></p>
     <p class="bg-info" id="addSuccess"></p>
   </div>
+</template>
+
+<template name="CurrentTotal">
+  Total for {{ currentMonth }}, {{ currentYear }} is (&#8362; <span id="totalSum">{{ currentTotal }}</span>)
 </template>
 
 <template name="NewExpenseForm">

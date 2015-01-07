@@ -38,3 +38,43 @@ DateUtil.getCurrentMonth = function() {
 DateUtil.getCurrentDate = function() {
 	return DateUtil.getDate(new Date());
 };
+
+// Arithmetics
+DateUtil.increment = function(date, numOfYears, numOfMonths, numOfDays) {
+// Increment each numOfX from the given date
+// If date not given, use current date
+	date = date || new Date();
+	return new Date(
+		date.getFullYear() + numOfYears,
+		date.getMonth() + numOfMonths,
+		date.getDate() + numOfDays
+	);
+};
+DateUtil.incrementYears = function(date, numOfYears) {
+// Given a date, increment numOfYears years from it
+	return DateUtil.increment(date, numOfYears, 0, 0);
+};
+DateUtil.incrementMonths = function(date, numOfMonths) {
+// Given a date, increment numOfYears months from it
+	return DateUtil.increment(date, 0, numOfMonths, 0);
+};
+DateUtil.incrementDays = function(date, numOfDays) {
+// Given a date, increment numOfYears days from it
+	return DateUtil.increment(date, 0, 0, numOfDays);
+};
+// Helpers
+DateUtil.nextYear = function(date) {
+// If date is not given, return the next year from the current year
+	date = DateUtil.getYear(date || new  Date());
+	return DateUtil.incrementYears(date, 1);
+};
+DateUtil.nextMonth = function(date) {
+// Same as DateUtil.nextYear
+	date = DateUtil.getMonth(date || new  Date());
+	return DateUtil.incrementMonths(date, 1);
+};
+DateUtil.nextDay = function(date) {
+// Same as DateUtil.nextYear
+	date = DateUtil.getDate(date || new  Date());
+	return DateUtil.incrementDays(date, 1);
+};
