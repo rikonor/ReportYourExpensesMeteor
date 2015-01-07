@@ -1,7 +1,7 @@
 Template.New.rendered = function() {
   var initTags = Tags.find().fetch().map(function(it){ return it.text; });
   $('#tags').tagsinput({
-    typeahead: { source: initTags.concat(['OR','AND']) },
+    typeahead: { source: initTags },
     freeInput: true
   });
 
