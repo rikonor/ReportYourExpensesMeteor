@@ -14,6 +14,6 @@ Meteor.publish('tags', function() {
 //-- Server --
 //------------
 
-Meteor.startup(function () {
-
+Meteor.startup(function() {
+  Expenses._ensureIndex({"tags": 1});
 });

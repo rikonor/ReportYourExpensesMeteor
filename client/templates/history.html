@@ -29,7 +29,7 @@
 
 <template name="Expense">
   <tr class="expense">
-    <td>{{ formatDate created_at }}</td>
+    <td>{{ formatDate effective_at }}</td>
     <td>{{ description }}</td>
     <td>{{ amount }}</td>
     <td>{{#each tags}}{{> Tag}}{{/each}}</td>
