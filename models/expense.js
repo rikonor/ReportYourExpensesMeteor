@@ -40,8 +40,15 @@ Expense.valid = function(expense) {
 
 // Find
 
+Expense.findByQuery = function(query, options) {
+	query = query || {};
+	options = options || {sort: {effective_at: -1}};
+
+	return Expenses.find(query, options).fetch();
+};
+
 Expense.findAll = function() {
-	return Expenses.find().fetch();
+	return Expense.findByQuery({});
 };
 
 Expense.findById = function(id) {
@@ -60,16 +67,19 @@ Expense.getTags = function(expense) {
 Expense.getCreationDate = function(expense) {
 	return expense.created_at;
 };
+Expense.getEffectiveDate = function(expense) {
+	return expense.effective_at;
+};
 Expense.getYear = function(expense) {
-	d = Expense.getCreationDate(expense);
+	d = Expense.getEffectiveDate(expense);
 	return DateUtil.getYear(d);
 };
 Expense.getMonth = function(expense) {
-	d = Expense.getCreationDate(expense);
+	d = Expense.getEffectiveDate(expense);
 	return DateUtil.getMonth(d);
 };
 Expense.getDate = function(expense) {
-	d = Expense.getCreationDate(expense);
+	d = Expense.getEffectiveDate(expense);
 	return DateUtil.getDate(d);
 };
 

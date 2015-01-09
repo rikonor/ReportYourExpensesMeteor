@@ -74,12 +74,11 @@ Tag.isCmd = function(tag) {
 // You can then combine basic queries using Tag.andQueris / Tag.orQueries
 
 // Given a complex query about tags, return all the expenses which pass it 
-Tag.getExpensesByQuery = function(query) {
-	query = query || {};
-	return Expenses.find(query).fetch();
+Tag.getExpensesByQuery = function(query, options) {
+	return Expense.findByQuery(query, options);
 };
 
 // Given a tag, return all of the expenses that are tagged with it
 Tag.getExpenses = function(tag) {
-	return Expenses.find({tags: tag._id}).fetch();
+	return Expense.findByQuery({tags: tag._id});
 };

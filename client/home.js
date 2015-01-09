@@ -1,5 +1,5 @@
 Template.Home.rendered = function() {
-  var expenses = Expenses.find().fetch();
+  var expenses = Expense.findAll();
   var groupedByDate = ExpenseUtils.groupByDate(expenses);
   data = [];
   for (date in groupedByDate) {
