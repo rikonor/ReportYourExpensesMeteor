@@ -169,7 +169,9 @@ ExpenseUtils.findDateElementInDateGroup = function(date, dateGroup) {
 	}
 };
 
-ExpenseUtils.padMonth = function(totalGroup) {
+ExpenseUtils.padMonth = function(totalGroup, paddingValue) {
+	paddingValue = (paddingValue == undefined) ? null : paddingValue;
+
 	var tmp = new Date(totalGroup[0].t);
 	// var tmp = new Date(Object.keys(totalGroup)[0])
 	var month = DateUtil.getMonth(tmp);
@@ -181,7 +183,7 @@ ExpenseUtils.padMonth = function(totalGroup) {
 		if (sumElement) {
 			results.push(sumElement);
 		} else {
-			results.push({t: date, val: 0});
+			results.push({t: date, val: paddingValue});
 		}
 	}
 	return results;

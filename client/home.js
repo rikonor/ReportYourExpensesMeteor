@@ -8,6 +8,6 @@ Template.Home.rendered = function() {
       val: ExpenseUtils.sum(groupedByDate[date])
     });
   }
-  data = ExpenseUtils.padMonth(data);
+  data = ExpenseUtils.padMonth(data, 0);
   Graph.createLineGraph('.graph', data);
 };
