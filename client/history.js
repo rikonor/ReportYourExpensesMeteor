@@ -33,7 +33,7 @@ Template.History.helpers({
   },
   totalSum: function(query) {
     var expenses = Tag.getExpensesByQuery(query);
-    return ExpenseUtils.sum(expenses);
+    return Expense.sum(expenses);
   }
 });
 

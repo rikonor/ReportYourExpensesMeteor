@@ -12,7 +12,7 @@ Template.New.rendered = function() {
 
 Template.CurrentTotal.helpers({
   currentTotal: function() {
-    return ExpenseUtils.sum(Expense.fromMonth());
+    return Expense.sum(Expense.fromMonth());
   },
   currentMonth: function() {
     return moment(DateUtil.getCurrentMonth()).format('MMMM');
