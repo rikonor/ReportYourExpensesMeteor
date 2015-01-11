@@ -39,12 +39,14 @@ Graph.createBarGraph = function(selector, dateValueArray) {
     .style("text-anchor", "end")
     .text("Expenditure");
 
+    var barWidth = width / dateValueArray.length;
+
     mainG.selectAll(".bar")
     .data(dateValueArray)
     .enter().append("rect")
     .attr("class", "bar")
     .attr("x", function(d) { return x(d.date); })
-    .attr("width", 20)
+    .attr("width", barWidth)
     .attr("y", function(d) { return y(d.value); })
     .attr("height", function(d) { return height - y(d.value); });
 };
