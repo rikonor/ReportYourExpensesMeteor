@@ -105,23 +105,3 @@ DateValue.getLatestInGroup = function(group) {
 // 		}
 // 	}
 // };
-
-// ExpenseUtils.padMonth = function(totalGroup, paddingValue) {
-// 	paddingValue = (paddingValue == undefined) ? null : paddingValue;
-
-// 	var tmp = new Date(totalGroup[0].date);
-// 	// var tmp = new Date(Object.keys(totalGroup)[0])
-// 	var month = DateUtil.getMonth(tmp);
-// 	var completeMonth = DateUtil.completeMonth(month);
-// 	results = [];
-// 	for (i in completeMonth) {
-// 		date = completeMonth[i];
-// 		sumElement = ExpenseUtils.findDateElementInDateGroup(date, totalGroup);
-// 		if (sumElement) {
-// 			results.push(sumElement);
-// 		} else {
-// 			results.push({date: date, value: paddingValue});
-// 		}
-// 	}
-// 	return results;
-// };
