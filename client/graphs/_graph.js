@@ -1,5 +1,5 @@
 DEFAULTS = {
-	width: 800,
+	width: 1100,
     height: 400,
 	margin: {
 		top: 20,
@@ -64,10 +64,15 @@ Graph.prototype.drawAxis = function() {
     this.xAxis = d3.svg.axis().scale(this.x).orient('bottom');
     this.yAxis = d3.svg.axis().scale(this.y).orient('left');
 
+    // Remove previous axis, if this is an update
+    this.mainG.select("g.x.axis").remove();
+    this.mainG.select("g.y.axis").remove();
+
+    // Draw new axis
     this.mainG.append("g")
     .attr("class", "x axis")
     .attr("transform", "translate(0," + this.height + ")")
-    .call(this.xAxis);
+    .call(this.xAxis)
 
     this.mainG.append("g")
     .attr("class", "y axis")
@@ -78,6 +83,13 @@ Graph.prototype.drawAxis = function() {
     .attr("dy", ".71em")
     .style("text-anchor", "end")
     .text("Expenditure");
+
+    return this;
+};
+
+Graph.prototype.removeAxis = function() {
+    this.mainG.select("g.x.axis").remove();
+    this.mainG.select("g.y.axis").remove();
 
     return this;
 };

@@ -11,6 +11,9 @@ Bar.prototype.drawData = function() {
 
     this.barWidth = this.width / this.dateValueArray.length;
 
+    // Remove previous data
+    this.mainG.selectAll('.bar').remove();
+
     // Get selection after data
     this.bars = this.mainG.selectAll(".bar").data(this.dateValueArray);
 
