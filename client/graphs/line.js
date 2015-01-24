@@ -10,8 +10,8 @@ Graph.createLineGraph = function(selector, data) {
   var yAxis = d3.svg.axis().scale(y).orient('left');
 
   var line = d3.svg.line()
-    .x(function(d) { return x(new Date(d.t)); })
-    .y(function(d) { return y(d.val); });
+    .x(function(d) { return x(new Date(d.date)); })
+    .y(function(d) { return y(d.value); });
 
   var svg = d3.select(selector).append('svg')
     .attr('width', width + margin.left + margin.right)
@@ -19,10 +19,10 @@ Graph.createLineGraph = function(selector, data) {
     .append('g')
     .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
-  xMin = d3.min(data, function(d) { return new Date(d.t); });
-  xMax = d3.max(data, function(d) { return new Date(d.t); });
+  xMin = d3.min(data, function(d) { return new Date(d.date); });
+  xMax = d3.max(data, function(d) { return new Date(d.date); });
   x.domain([xMin, xMax]);
-  yMax = d3.max(data, function(d) { return d.val; })
+  yMax = d3.max(data, function(d) { return d.value; })
   y.domain([0, yMax + 100]);
 
   svg.append('g')

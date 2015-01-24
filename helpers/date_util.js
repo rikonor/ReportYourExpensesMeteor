@@ -14,19 +14,6 @@ DateUtil.getDate = function(date) {
 	return new Date(date.getFullYear(), date.getMonth(), date.getDate());
 };
 
-DateUtil.completeMonth = function(date) {
-	// Given a date, returns an array of date objects pertaining to each day of the supplied day's month
-	start = DateUtil.getMonth(date);
-	days = [];
-	current_day = start;
-	end = new Date(start.getFullYear(), start.getMonth() + 1);
-	while (current_day < end) {
-		days.push(current_day);
-		current_day = new Date(current_day.getFullYear(), current_day.getMonth(), current_day.getDate()+1);
-	}
-	return days;
-};
-
 DateUtil.getCurrentYear = function() {
 	return DateUtil.getYear(new Date());
 };
@@ -77,4 +64,57 @@ DateUtil.nextDay = function(date) {
 // Same as DateUtil.nextYear
 	date = DateUtil.getDate(date || new  Date());
 	return DateUtil.incrementDays(date, 1);
+};
+
+DateUtil.getMinInArray = function(dates) {
+	return new Date(_.min(dates, function(date) { return new Date(date.toString()); }));
+};
+DateUtil.getMaxInArray = function(dates) {
+	return new Date(_.max(dates, function(date) { return new Date(date.toString()); }));
+};
+
+// Date range methods
+
+DateUtil.createRange = function(start, end, resolution, includeEnd) {
+	start = DateUtil.getDate(start);
+	end = DateUtil.getDate(end);
+
+	resolution = {
+		days: resolution.days || 0,
+		months: resolution.months || 0,
+		years: resolution.years || 0
+	};
+
+	var result = [];
+
+	var current = start;
+	while (current < end) {
+		result.push(current);
+		current = DateUtil.increment(current, resolution.years, resolution.months, resolution.days);
+	}
+
+	if (includeEnd) {
+		result.push(current);
+	}
+
+	return result;
+};
+
+DateUtil.completeYearWithMonths = function(date) {
+	var start = DateUtil.getYear(date);
+	var end = DateUtil.nextYear(start);
+	var resolution = { months: 1 };
+	return DateUtil.createRange(start, end, resolution);
+};
+DateUtil.completeYearWithDates = function(date) {
+	var start = DateUtil.getYear(date);
+	var end = DateUtil.nextYear(start);
+	var resolution = { days: 1 };
+	return DateUtil.createRange(start, end, resolution);
+};
+DateUtil.completeMonthWithDates = function(date) {
+	var start = DateUtil.getMonth(date);
+	var end = DateUtil.nextMonth(start);
+	var resolution = { days: 1 };
+	return DateUtil.createRange(start, end, resolution);
 };
