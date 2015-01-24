@@ -1,50 +1,44 @@
-Graph.createBarChart = function(selector, data) {
-    var margin = {top: 20, right: 20, bottom: 30, left: 40},
-        width = Graph.defaults.width - margin.left - margin.right,
-        height = Graph.defaults.height - margin.top - margin.bottom;
+var Bar = Graph.Bar = function(selector) {
+    Graph.call(this, selector);
+    return this;
+};
 
-    var x = d3.time.scale().range([0, width]);
-    var y = d3.scale.linear().range([height, 0]);
+Bar.prototype = Object.create(Graph.prototype);
+Bar.prototype.constructor = Bar;
 
-    var xAxis = d3.svg.axis()
-        .scale(x)
-        .orient("bottom");
+Bar.prototype.drawData = function() {
+    main = this;
 
-    var yAxis = d3.svg.axis()
-        .scale(y)
-        .orient("left")
-        .ticks(10, "%");
+    this.barWidth = this.width / this.dateValueArray.length;
 
-    var svg = d3.select(selector).append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-        .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    // Remove previous data
+    this.mainG.selectAll('.bar').remove();
 
-    x.domain(data.map(function(d) { return d.t; }));
-    y.domain([0, d3.max(data, function(d) { return d.val; })]);
+    // Get selection after data
+    this.bars = this.mainG.selectAll(".bar").data(this.dateValueArray);
 
-    svg.append("g")
-        .attr("class", "x axis")
-        .attr("transform", "translate(0," + height + ")")
-        .call(xAxis);
+    // new bars
+    this.bars.enter().append("rect")
+    .attr("class", "bar")
+    .attr("x", function(d, i) {
+        return Math.floor(main.x(d.date)) + 5;
+    })
+    .attr("width", function(d, i) {
+        var selectedWidth = (!main.dateValueArray[i+1]) ?
+            main.barWidth :
+            Math.ceil(main.x(main.dateValueArray[i+1].date) - main.x(d.date));
+        return selectedWidth - 10;
+    })
+    .attr("y", function(d) { return main.y(d.value); })
+    .attr("height", function(d) { return main.height - main.y(d.value); });
 
-    svg.append("g")
-        .attr("class", "y axis")
-        .call(yAxis)
-        .append("text")
-        .attr("transform", "rotate(-90)")
-        .attr("y", 6)
-        .attr("dy", ".71em")
-        .style("text-anchor", "end")
-        .text("Expenditure");
+    // remove olds    
+    this.bars.exit().remove();
 
-    svg.selectAll(".bar")
-        .data(data)
-        .enter().append("rect")
-        .attr("class", "bar")
-        .attr("x", function(d) { return x(d.t); })
-        .attr("width", 10)
-        .attr("y", function(d) { return y(d.val); })
-        .attr("height", function(d) { return height - y(d.val); });
+    return this;
+};
+
+Graph.createBarGraph = function(selector, dateValueArray) {
+    var graph = new Graph.Bar(selector);
+    return graph.setData(dateValueArray).setOptions().createCanvas().drawAxis().drawData();
 };

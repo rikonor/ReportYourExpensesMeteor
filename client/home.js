@@ -1,13 +1,7 @@
 Template.Home.rendered = function() {
-  var expenses = Expense.findAll();
-  var groupedByDate = ExpenseUtils.groupByDate(expenses);
-  data = [];
-  for (date in groupedByDate) {
-    data.push({
-      t: date,
-      val: ExpenseUtils.sum(groupedByDate[date])
-    });
-  }
-  data = ExpenseUtils.padMonth(data, 0);
-  Graph.createLineGraph('.graph', data);
+  dateGroup = ExpenseUtils.sumByMonth(Expense.findAll());
+  dateGroup = DateValue.padGroup(dateGroup, {resolution: {months: 1}});
+  dateArray = DateValue.groupToArray(dateGroup);
+  // Graph.createLineGraph('.graph', dateArray);
+  Graph.createBarGraph('.graph', dateArray);
 };

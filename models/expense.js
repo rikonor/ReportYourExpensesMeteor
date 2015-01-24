@@ -112,47 +112,7 @@ Expense.fromDate = function(date) {
 	return Expense.fromDateRange(start, end);
 };
 
-/* Utilities */
-
-ExpenseUtils = {};
-
-ExpenseUtils.groupByYear = function(expenses) {
-	result = {};
-	expenses.forEach(function(expense) {
-		year = Expense.getYear(expense);
-		if (!result[year]) {
-			result[year] = [];
-		}
-		result[year].push(expense);
-	});
-	return result;
-};
-
-ExpenseUtils.groupByMonth = function(expenses) {
-	result = {};
-	expenses.forEach(function(expense) {
-		month = Expense.getMonth(expense);
-		if (!result[month]) {
-			result[month] = [];
-		}
-		result[month].push(expense);
-	});
-	return result;
-};
-
-ExpenseUtils.groupByDate = function(expenses) {
-	result = {};
-	expenses.forEach(function(expense) {
-		day = Expense.getDate(expense);
-		if (!result[day]) {
-			result[day] = [];
-		}
-		result[day].push(expense);
-	});
-	return result;
-};
-
-ExpenseUtils.sum = function(expenses) {
+Expense.sum = function(expenses) {
 	sum = 0;
 	expenses.forEach(function(expense) {
 		sum += expense['amount'];
@@ -160,31 +120,26 @@ ExpenseUtils.sum = function(expenses) {
 	return sum;
 };
 
-ExpenseUtils.findDateElementInDateGroup = function(date, dateGroup) {
-	for (i in dateGroup) {
-		dateElement = dateGroup[i];
-		if (date == dateElement.t) {
-			return dateElement;
-		}
-	}
+/* Utilities */
+
+ExpenseUtils = {};
+
+ExpenseUtils.groupByYear = function(expenses) {
+	return DateValue.createGroup(expenses, Expense.getYear);
+};
+ExpenseUtils.groupByMonth = function(expenses) {
+	return DateValue.createGroup(expenses, Expense.getMonth);
+};
+ExpenseUtils.groupByDate = function(expenses) {
+	return DateValue.createGroup(expenses, Expense.getDate);
 };
 
-ExpenseUtils.padMonth = function(totalGroup, paddingValue) {
-	paddingValue = (paddingValue == undefined) ? null : paddingValue;
-
-	var tmp = new Date(totalGroup[0].t);
-	// var tmp = new Date(Object.keys(totalGroup)[0])
-	var month = DateUtil.getMonth(tmp);
-	var completeMonth = DateUtil.completeMonth(month);
-	results = [];
-	for (i in completeMonth) {
-		date = completeMonth[i];
-		sumElement = ExpenseUtils.findDateElementInDateGroup(date, totalGroup);
-		if (sumElement) {
-			results.push(sumElement);
-		} else {
-			results.push({t: date, val: paddingValue});
-		}
-	}
-	return results;
+ExpenseUtils.sumByYear = function(expenses) {
+	return DateValue.createGroup(expenses, Expense.getYear, Expense.sum);
+};
+ExpenseUtils.sumByMonth = function(expenses) {
+	return DateValue.createGroup(expenses, Expense.getMonth, Expense.sum);
+};
+ExpenseUtils.sumByDate = function(expenses) {
+	return DateValue.createGroup(expenses, Expense.getDate, Expense.sum);
 };
