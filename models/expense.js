@@ -32,6 +32,10 @@ Expense.create = function(amount, description, tags) {
 	return Expenses.insert(expense);
 }
 
+// Expense.update = function(id, amount, description, tags) {
+	
+// };
+
 Expense.valid = function(expense) {
   var validAmount = (expense.amount || false) && typeof(expense.amount) == 'number';
   var validDescription = (expense.description || false) && expense.description != "";

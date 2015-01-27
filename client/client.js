@@ -34,14 +34,20 @@ Router.route('/new', function() {
   this.render('New');
 });
 
+Router.route('/edit/:_id', {
+  name: 'expense.edit',
+  data: function() {
+    return Expense.findById(this.params._id);
+    // return this.params._id;
+  },
+  action: function() {
+    this.render('Edit');
+  }
+});
+
 Router.route('/history', function() {
   this.render('History');
 });
-
-// Router.route('/expenses/:_id', function() {
-//   var expense = Expenses.findOne({_id: this.params._id});
-//   this.render('ExpensePage', {data: expense});
-// });
 
 // Meteor.startup(function() {
   

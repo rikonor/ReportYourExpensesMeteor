@@ -1,0 +1,45 @@
+<template name="Edit">
+  <div class="container">
+
+    <h1>Edit</h1>
+
+    {{> EditExpenseForm }}
+
+  </div>
+</template>
+
+<template name="EditExpenseForm">
+  <form role="form" name="editForm" id="editForm">
+    <!-- GENERAL INFO -->
+    <fieldset>
+      <!-- DATE -->
+      <div class="form-group">
+        <label class="sr-only" for="date">Date</label>
+        <input type="text" class="form-control datepicker" name="date" id="date" placeholder="Date" autocomplete="off">
+      </div>
+
+      <!-- AMOUNT -->
+      <div class="form-group">
+        <label class="sr-only" for="amount">Amount</label>
+        <input type="text" class="form-control" name="amount" id="amount" placeholder="Amount" autocomplete="off" value="{{ amount }}">
+      </div>
+
+      <!-- DESCRIPTION -->
+      <div class="form-group">
+        <label class="sr-only" for="description">Description</label>
+        <input type="text" class="form-control" name="description" id="description" placeholder="Description" autocomplete="off" value="{{ description }}">
+      </div>
+
+      <!-- TAGS -->
+      <div class="form-group">
+        <label class="sr-only" for="tags">Tags Input</label>
+        <input type="text" data-role="tagsinput" class="form-control" name="tags" id="tags" placeholder="Enter tags" autocomplete="off">
+      </div>
+    </fieldset>
+
+    <!-- SUBMIT -->
+    <div class="form-group">
+      <button class="form-control btn btn-default">Submit</button>
+    </div>
+  </form>
+</template>
