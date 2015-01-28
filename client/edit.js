@@ -26,18 +26,17 @@ Template.Edit.rendered = function() {
 
 Template.EditExpenseForm.events({
   'submit #editForm': function(e, t) {
+    var date        = new Date(t.find('#date').value);
     var amount      = parseFloat(t.find('#amount').value);
     var description = t.find('#description').value;
     var tags        = t.find('#tags').value;
-
-    // TODO - dont forget to update the date (effective_at)
-    // and also the updated_at (is this updated in the hook ?)
 
     // Split tags into Tag objects
     tags = tags.split(",");
 
     // Form validation
     expense = {
+      effective_at: date,
       amount: amount,
       description: description,
       tags: tags
@@ -49,8 +48,7 @@ Template.EditExpenseForm.events({
       return false;
     }
 
-    // TODO - create Expense.update method
-    // Expense.update(id, amount, description, tags);
+    Expense.update(this._id, date, amount, description, tags);
 
     return false;
   }

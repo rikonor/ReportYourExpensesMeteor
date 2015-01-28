@@ -28,6 +28,16 @@ Tag.create = function(text, color) {
 	return Tags.insert(tag);
 };
 
+// Try to create, if it already exists just return it
+Tag.upsert = function(text, color) {
+	tag = Tag.findByText(text);
+	if (tag) {
+		return tag._id;
+	} else {
+		return Tag.create(text, color);
+	}
+};
+
 Tag.valid = function(tag) {
 	return tag.text && tag.color;
 };
