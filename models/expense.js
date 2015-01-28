@@ -13,24 +13,43 @@ Expense.create = function(amount, description, tags) {
 		throw new Error("Invalid expense");
 	}
 	
-	for (i in tags) {
-		var text = tags[i];
-		// Try and find the tag
-		var tag = Tags.findOne({text: text})
-		if (tag) {
-			tag_id = tag._id;
-		} else {
-			// If not found create it
-			// TODO - what about when the tag create doesn't work? wouldn't it reaturn a bad tag_id?
-			tag_id = Tag.create(text);
+	tags.forEach(function(text) {
+		tagId = Tag.upsert(text);
+		if (!(tagId in expense['tags'])) {
+			expense['tags'].push(tagId);
 		}
-	
-		// And append the tag_id to the expense's tags
-		expense['tags'].push(tag_id);
-	}
+	});
 
 	return Expenses.insert(expense);
 }
+
+Expense.update = function(id, date, amount, description, tags) {
+	expense = Expense.findById(id);
+
+	expense['effective_at'] = date;
+	expense['amount'] = amount;
+	expense['description'] = description;
+
+	if (!Expense.valid(expense)) {
+		throw new Error("Invalid expense");
+	}
+
+	tags.forEach(function(text) {
+		tagId = Tag.upsert(text);
+		if (!(tagId in expense['tags'])) {
+			expense['tags'].push(tagId);
+		}
+	});
+
+	return Expenses.update({_id: id}, {
+		$set: {
+			'effective_at': date,
+			'amount': amount,
+			'description': description,
+			'tags': expense['tags']
+		}
+	});
+};
 
 Expense.valid = function(expense) {
   var validAmount = (expense.amount || false) && typeof(expense.amount) == 'number';
