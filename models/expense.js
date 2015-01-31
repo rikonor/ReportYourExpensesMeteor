@@ -34,11 +34,8 @@ Expense.update = function(id, date, amount, description, tags) {
 		throw new Error("Invalid expense");
 	}
 
-	tags.forEach(function(text) {
-		tagId = Tag.upsert(text);
-		if (!(tagId in expense['tags'])) {
-			expense['tags'].push(tagId);
-		}
+	tags = tags.map(function(text) {
+		return Tag.upsert(text);
 	});
 
 	return Expenses.update({_id: id}, {
@@ -46,7 +43,7 @@ Expense.update = function(id, date, amount, description, tags) {
 			'effective_at': date,
 			'amount': amount,
 			'description': description,
-			'tags': expense['tags']
+			'tags': tags
 		}
 	});
 };
