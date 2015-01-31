@@ -46,7 +46,8 @@ Template.History.events({
 });
 
 Template.History.helpers({
-  totalSum: function(query) {
+  totalSum: function() {
+    queryDep.depend();
     var expenses = Tag.getExpensesByQuery(query);
     return Expense.sum(expenses);
   }
