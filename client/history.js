@@ -1,6 +1,10 @@
 var query = {};
 var queryDep = new Deps.Dependency;
 
+var minNumOfExpensesToShow = 10;
+var numOfExpensesToShow = minNumOfExpensesToShow;
+var numOfExpensesToShowDep = new Deps.Dependency;
+
 var graph;
 
 var getDateValueArray = function(expenses) {
@@ -60,6 +64,20 @@ Template.ExpensesTable.helpers({
     return query;
   },
   expenses: function(query) {
-    return Tag.getExpensesByQuery(query);
+    numOfExpensesToShowDep.depend();
+    var expenses = Tag.getExpensesByQuery(query);
+    return expenses.slice(0, numOfExpensesToShow);
+  }
+});
+
+Template.ExpensesTable.events({
+  'click #showMore': function() {
+    numOfExpensesToShow += 10;
+    numOfExpensesToShowDep.changed();
+  },
+  'click #showLess': function() {
+    numOfExpensesToShow -= 10;
+    numOfExpensesToShow = Math.max(minNumOfExpensesToShow, numOfExpensesToShow);
+    numOfExpensesToShowDep.changed();
   }
 });
