@@ -1,6 +1,10 @@
 var query = {};
 var queryDep = new Deps.Dependency;
 
+var minNumOfExpensesToShow = 10;
+var numOfExpensesToShow = minNumOfExpensesToShow;
+var numOfExpensesToShowDep = new Deps.Dependency;
+
 var graph;
 
 var getDateValueArray = function(expenses) {
@@ -42,13 +46,6 @@ Template.History.events({
 });
 
 Template.History.helpers({
-  query: function() {
-    queryDep.depend();
-    return query;
-  },
-  expenses: function(query) {
-    return Tag.getExpensesByQuery(query);
-  },
   totalSum: function(query) {
     var expenses = Tag.getExpensesByQuery(query);
     return Expense.sum(expenses);
@@ -58,5 +55,29 @@ Template.History.helpers({
 Template.Expense.helpers({
   tags: function() {
     return Expense.getTags(this);
+  }
+});
+
+Template.ExpensesTable.helpers({
+  query: function() {
+    queryDep.depend();
+    return query;
+  },
+  expenses: function(query) {
+    numOfExpensesToShowDep.depend();
+    var expenses = Tag.getExpensesByQuery(query);
+    return expenses.slice(0, numOfExpensesToShow);
+  }
+});
+
+Template.ExpensesTable.events({
+  'click #showMore': function() {
+    numOfExpensesToShow += 10;
+    numOfExpensesToShowDep.changed();
+  },
+  'click #showLess': function() {
+    numOfExpensesToShow -= 10;
+    numOfExpensesToShow = Math.max(minNumOfExpensesToShow, numOfExpensesToShow);
+    numOfExpensesToShowDep.changed();
   }
 });
