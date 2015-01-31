@@ -42,13 +42,6 @@ Template.History.events({
 });
 
 Template.History.helpers({
-  query: function() {
-    queryDep.depend();
-    return query;
-  },
-  expenses: function(query) {
-    return Tag.getExpensesByQuery(query);
-  },
   totalSum: function(query) {
     var expenses = Tag.getExpensesByQuery(query);
     return Expense.sum(expenses);
@@ -58,5 +51,15 @@ Template.History.helpers({
 Template.Expense.helpers({
   tags: function() {
     return Expense.getTags(this);
+  }
+});
+
+Template.ExpensesTable.helpers({
+  query: function() {
+    queryDep.depend();
+    return query;
+  },
+  expenses: function(query) {
+    return Tag.getExpensesByQuery(query);
   }
 });
