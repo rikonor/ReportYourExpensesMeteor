@@ -41,6 +41,7 @@ Template.NewExpenseForm.events({
     if (!Expense.valid(expense)) {
       // Need to add possibly message to user explaining missing fields
       console.log("Invalid expense");
+      toastr.error("Invalid parameters");
       return false;
     }
 
@@ -50,6 +51,13 @@ Template.NewExpenseForm.events({
     $('#tags').tagsinput('removeAll');
 
     Expense.create(amount, description, tags);
+
+    // Announce
+    var msg =
+      "Amount: " + amount + "<br>" +
+      "Description: " + description + "<br>" +
+      "Tags: " + tags
+    toastr.success(msg, 'Expense added')
 
     return false;
   }

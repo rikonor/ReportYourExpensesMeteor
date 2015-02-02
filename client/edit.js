@@ -45,10 +45,18 @@ Template.EditExpenseForm.events({
     if (!Expense.valid(expense)) {
       // Need to add possibly message to user explaining missing fields
       console.log("Invalid expense");
+      toastr.error("Invalid parameters");
       return false;
     }
 
     Expense.update(this._id, date, amount, description, tags);
+
+    // Announce
+    var msg =
+      "Amount: " + amount + "<br>" +
+      "Description: " + description + "<br>" +
+      "Tags: " + tags
+    toastr.success(msg, 'Expense edited')
 
     return false;
   }
