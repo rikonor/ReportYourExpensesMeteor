@@ -7,6 +7,10 @@
 	cursor: pointer;
 }
 
+.toastr-link {
+  font-weight: bold;
+}
+
 /* ------------ */
 /* Graphs begin */
 /* ------------ */

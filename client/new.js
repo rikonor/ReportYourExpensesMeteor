@@ -50,13 +50,14 @@ Template.NewExpenseForm.events({
     t.find('#description').value = "";
     $('#tags').tagsinput('removeAll');
 
-    Expense.create(amount, description, tags);
+    var expenseId = Expense.create(amount, description, tags);
 
     // Announce
     var msg =
       "Amount: " + amount + "<br>" +
       "Description: " + description + "<br>" +
-      "Tags: " + tags
+      "Tags: " + tags + "<br><br>" +
+      "<a class='toastr-link' href='/edit/" + expenseId + "'>Continue to edit</a>"
     toastr.success(msg, 'Expense added')
 
     return false;
