@@ -1,9 +1,17 @@
 <template name="New">
   <div class="container">
 
-    <h1>New - {{> CurrentTotal }}</h1>
+    <div class="row">
+      <div class="col-md-12">
+        <h1>New - {{> CurrentTotal }}</h1>  
+      </div>
+    </div>
 
-    {{> NewExpenseForm }}
+    <div class="row">
+      <div class="col-md-12">
+        {{> NewExpenseForm }}    
+      </div>
+    </div>
 
     <!-- RESULT MESSAGES -->
     <p id="last_id"></p>

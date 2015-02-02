@@ -1,13 +1,30 @@
 <template name="History">
   <div class="container">
 
-    <h1 id="totalAmount">Expense History - Total is (&#8362; <span id="totalSum">{{totalSum query}}</span>)</h1>
+    <div class="row">
+      <div class="col-md-12">
+        <h1 id="totalAmount">Expense History - Total is (&#8362; <span id="totalSum">{{totalSum query}}</span>)</h1>
+      </div>
+    </div>
     
-    <div class="graph"></div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="graph"></div>
+      </div>
+    </div>
     
-    <input type="text" class="form-control" name="query" id="query" placeholder="Search" autocomplete="off">
+    <div class="row">
+      <div class="col-md-12">
+        <input type="text" class="form-control" name="query" id="query" placeholder="Search" autocomplete="off">
+      </div>
+    </div>
 
-    {{> ExpensesTable query }}
+    <div class="row">
+      <div class="col-md-12">
+        {{> ExpensesTable query }}
+      </div>
+    </div>
+
   </div>
 </template>
 
